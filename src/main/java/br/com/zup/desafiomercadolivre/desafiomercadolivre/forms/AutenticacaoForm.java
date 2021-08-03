@@ -8,24 +8,20 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-public class UsuarioForm {
+public class AutenticacaoForm {
     @NotBlank
     @Email
-    @UniqueValue(fieldName = "login",domainClass = Usuario.class)
     private String login;
     @Length(min = 6)
     @NotBlank
     private String senha;
 
-    public UsuarioForm(String login, String senha) {
+    public AutenticacaoForm(String login, String senha) {
         this.login = login;
         this.senha = senha;
     }
     public UsernamePasswordAuthenticationToken toLogin(){
         return new UsernamePasswordAuthenticationToken(login,senha);
-    }
-    public Usuario toModel(){
-        return new Usuario(this.login,new SenhaLimpa(this.senha));
     }
 
     public String getLogin() {
