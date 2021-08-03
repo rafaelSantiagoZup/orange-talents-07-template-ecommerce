@@ -24,4 +24,8 @@ public class UsuarioForm {
     public Usuario toModel(){
         return new Usuario(this.login,new SenhaLimpa(this.senha));
     }
+
+    public String getLogin() {
+        return login;
+    }
 }
