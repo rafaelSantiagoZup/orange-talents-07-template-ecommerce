@@ -13,12 +13,16 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false)
     private String login;
     @Column(nullable = false)
     private String senha;
     @PastOrPresent
     private LocalDateTime dataCadastro = LocalDateTime.now();
+
+    @Deprecated
+    public Usuario() {
+    }
 
     public Usuario(@NotBlank @Email String login, @NotBlank @Length(min = 6) String senha) {
         this.login = login;
