@@ -1,6 +1,9 @@
 package br.com.zup.desafiomercadolivre.desafiomercadolivre.models;
 
+import br.com.zup.desafiomercadolivre.desafiomercadolivre.common.annotations.UniqueValue;
+import br.com.zup.desafiomercadolivre.desafiomercadolivre.forms.SenhaLimpa;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -13,7 +16,7 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String login;
     @Column(nullable = false)
     private String senha;
@@ -24,11 +27,11 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(@NotBlank @Email String login, @NotBlank @Length(min = 6) String senha) {
+    public Usuario(@NotBlank @Email String login,
+                   @NotBlank SenhaLimpa senhaLimpa) {
         this.login = login;
-        this.senha = senha;
+        this.senha = senhaLimpa.hash();
     }
-
     public Long getId() {
         return id;
     }
