@@ -1,6 +1,7 @@
 package br.com.zup.desafiomercadolivre.desafiomercadolivre.models;
 
 import br.com.zup.desafiomercadolivre.desafiomercadolivre.forms.CaracteristicasForm;
+import br.com.zup.desafiomercadolivre.desafiomercadolivre.forms.ImagemForm;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -11,10 +12,7 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -39,7 +37,20 @@ public class Produto {
     @ManyToOne
     private Usuario dono;
     private LocalDateTime instanteCadastro = LocalDateTime.now();
+    @OneToMany(mappedBy = "produto",cascade = CascadeType.ALL)
+    private Set<Imagem> imagens = new HashSet<Imagem>();
 
+    public void setImagens(List<ImagemForm> imagens) {
+        this.imagens.addAll(imagens.stream()
+                .map(imagem->imagem.toModel(this))
+                .collect(Collectors.toSet()));
+    }
+    public boolean pertenceAoUsuario(Usuario dono){
+        return this.dono.equals(dono);
+    }
+    public Set<Imagem> getImagens() {
+        return imagens;
+    }
     public Produto(
             @NotBlank String nome,
             @NotBlank @Positive BigDecimal valor,
@@ -97,5 +108,18 @@ public class Produto {
 
     public LocalDateTime getInstanteCadastro() {
         return instanteCadastro;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Produto)) return false;
+        Produto produto = (Produto) o;
+        return Objects.equals(id, produto.id) && Objects.equals(nome, produto.nome) && Objects.equals(valor, produto.valor) && Objects.equals(quantidade, produto.quantidade) && Objects.equals(caracteristicas, produto.caracteristicas) && Objects.equals(descricao, produto.descricao) && Objects.equals(categoria, produto.categoria) && Objects.equals(dono, produto.dono) && Objects.equals(instanteCadastro, produto.instanteCadastro) && Objects.equals(imagens, produto.imagens);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, valor, quantidade, caracteristicas, descricao, categoria, dono, instanteCadastro, imagens);
     }
 }
