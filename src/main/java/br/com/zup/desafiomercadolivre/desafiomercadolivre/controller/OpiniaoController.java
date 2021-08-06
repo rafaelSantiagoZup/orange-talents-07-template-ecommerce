@@ -37,7 +37,6 @@ public class OpiniaoController {
     @Transactional
     public ResponseEntity addOpiniao(@PathVariable Long id, @RequestBody @Valid OpiniaoForm opiniaoForm, @AuthenticationPrincipal Usuario usuario){
         Produto produto = produtoRepository.findById(id).get();
-        if(produto.pertenceAoUsuario(usuario)){
             Opiniao opiniao = opiniaoForm.toModel(produto,usuario);
             try{
                 opiniaoRepository.save(opiniao);
@@ -45,7 +44,5 @@ public class OpiniaoController {
             }catch (Exception e){
                 return ResponseEntity.badRequest().build();
             }
-        }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 }

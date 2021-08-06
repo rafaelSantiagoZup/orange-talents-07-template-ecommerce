@@ -9,8 +9,6 @@ public class OpiniaoDTO {
     private String titulo;
     private String descricao;
     private Integer nota;
-    private Long produtoId;
-
 
     public Long getId() {
         return id;
@@ -28,10 +26,6 @@ public class OpiniaoDTO {
         return nota;
     }
 
-    public Long getProdutoId() {
-        return produtoId;
-    }
-
     @Deprecated
     public OpiniaoDTO() {
     }
@@ -41,6 +35,5 @@ public class OpiniaoDTO {
         this.titulo = opiniao.getTitulo();
         this.descricao = opiniao.getDescricao();
         this.nota = opiniao.getNota();
-        this.produtoId = opiniao.getProduto().getId();
     }
 }
