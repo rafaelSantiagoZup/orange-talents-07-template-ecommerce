@@ -1,5 +1,7 @@
 package br.com.zup.desafiomercadolivre.desafiomercadolivre.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
@@ -17,6 +19,7 @@ public class Imagem {
     @ManyToOne
     @NotNull
     @Valid
+    @JsonBackReference
     private Produto produto;
     @NotBlank
     @URL

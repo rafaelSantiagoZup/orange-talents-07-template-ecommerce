@@ -1,13 +1,10 @@
 package br.com.zup.desafiomercadolivre.desafiomercadolivre.DTO;
 
-import br.com.zup.desafiomercadolivre.desafiomercadolivre.models.Imagem;
 import br.com.zup.desafiomercadolivre.desafiomercadolivre.models.Produto;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ProdutoDTO {
@@ -15,7 +12,25 @@ public class ProdutoDTO {
     private String nome;
     private BigDecimal valor;
     private Integer quantidade;
-    private List<Imagem> imagens;
+    private List<CaracteristicaDTO> caracteristicas = new ArrayList<CaracteristicaDTO>();
+    private List<OpiniaoDTO> opinioes = new ArrayList<OpiniaoDTO>();
+
+    public List<OpiniaoDTO> getOpinioes() {
+        return opinioes;
+    }
+
+    public List<CaracteristicaDTO> getCaracteristicas() {
+        return caracteristicas;
+    }
+
+    private List<ImagemDTO> imagens = new ArrayList<ImagemDTO>();
+
+    public List<ImagemDTO> getImagens() {
+        return imagens;
+    }
+
+    public ProdutoDTO() {
+    }
 
     public ProdutoDTO(Produto produto) {
         this.id = produto.getId();
@@ -23,10 +38,20 @@ public class ProdutoDTO {
         this.valor = produto.getValor();
         this.quantidade = produto.getQuantidade();
         if(!produto.getImagens().isEmpty()){
-            this.imagens = new ArrayList<Imagem>();
-            produto.getImagens().stream()
-                    .map(imagem -> this.imagens.add(imagem)).collect(Collectors.toList());
+            this.imagens.addAll(produto
+                    .getImagens()
+                    .stream().map(imagem -> new ImagemDTO(imagem))
+                    .collect(Collectors.toList()));
         }
+        this.caracteristicas.addAll(produto
+                .getCaracteristicas()
+                .stream()
+                .map(caracteristica-> new CaracteristicaDTO(caracteristica))
+                .collect(Collectors.toList()));
+        this.opinioes.addAll(produto
+                .getOpinioes()
+                .stream().map(opiniao -> new OpiniaoDTO(opiniao))
+        .collect(Collectors.toList()));
     }
 
     public Long getId() {

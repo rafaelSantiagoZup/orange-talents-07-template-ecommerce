@@ -26,7 +26,7 @@ public class Produto {
     private BigDecimal valor;
     @NotNull @Positive
     private Integer quantidade;
-    @OneToMany(mappedBy = "produto",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "produto",cascade = CascadeType.PERSIST)
     private Set<Caracteristicas> caracteristicas = new HashSet<Caracteristicas>();
     @NotBlank @Length(max = 1000)
     private String descricao;
@@ -37,8 +37,12 @@ public class Produto {
     @ManyToOne
     private Usuario dono;
     private LocalDateTime instanteCadastro = LocalDateTime.now();
-    @OneToMany(mappedBy = "produto",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "produto",cascade = CascadeType.MERGE)
+    @Valid
     private Set<Imagem> imagens = new HashSet<Imagem>();
+    @Valid
+    @OneToMany(mappedBy = "produto")
+    private Set<Opiniao> opinioes = new HashSet<Opiniao>();
 
     public void setImagens(List<ImagemForm> imagens) {
         this.imagens.addAll(imagens.stream()
@@ -46,8 +50,17 @@ public class Produto {
                 .collect(Collectors.toSet()));
     }
     public boolean pertenceAoUsuario(Usuario dono){
-        return this.dono.equals(dono);
+        return this.dono.getId().equals(dono.getId());
     }
+
+    public Set<Opiniao> getOpinioes() {
+        return this.opinioes;
+    }
+
+    public void setOpinioes(Opiniao opiniao) {
+        this.opinioes.add(opiniao);
+    }
+
     public Set<Imagem> getImagens() {
         return imagens;
     }
@@ -63,7 +76,7 @@ public class Produto {
         this.valor = valor;
         this.quantidade = quantidade;
         this.caracteristicas.addAll(caracteristicas.stream()
-                .map(caracteristicasForms->caracteristicasForms.toModel(this))
+                .map(caracteristica -> caracteristica.toModel(this))
                 .collect(Collectors.toSet()));
         this.descricao = descricao;
         this.categoria = categoria;
@@ -108,18 +121,5 @@ public class Produto {
 
     public LocalDateTime getInstanteCadastro() {
         return instanteCadastro;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Produto)) return false;
-        Produto produto = (Produto) o;
-        return Objects.equals(id, produto.id) && Objects.equals(nome, produto.nome) && Objects.equals(valor, produto.valor) && Objects.equals(quantidade, produto.quantidade) && Objects.equals(caracteristicas, produto.caracteristicas) && Objects.equals(descricao, produto.descricao) && Objects.equals(categoria, produto.categoria) && Objects.equals(dono, produto.dono) && Objects.equals(instanteCadastro, produto.instanteCadastro) && Objects.equals(imagens, produto.imagens);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, nome, valor, quantidade, caracteristicas, descricao, categoria, dono, instanteCadastro, imagens);
     }
 }

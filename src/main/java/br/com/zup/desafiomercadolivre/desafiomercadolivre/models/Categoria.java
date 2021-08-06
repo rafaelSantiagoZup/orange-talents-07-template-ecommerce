@@ -13,7 +13,6 @@ public class Categoria {
     private String nome;
     @ManyToOne
     private Categoria categoriaMae;
-
     @Deprecated
     public Categoria() {
     }
