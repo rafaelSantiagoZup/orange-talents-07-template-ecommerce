@@ -40,9 +40,6 @@ public class Produto {
     @OneToMany(mappedBy = "produto",cascade = CascadeType.MERGE)
     @Valid
     private Set<Imagem> imagens = new HashSet<Imagem>();
-    @Valid
-    @OneToMany(mappedBy = "produto")
-    private Set<Opiniao> opinioes = new HashSet<Opiniao>();
 
     public void setImagens(List<ImagemForm> imagens) {
         this.imagens.addAll(imagens.stream()
@@ -51,14 +48,6 @@ public class Produto {
     }
     public boolean pertenceAoUsuario(Usuario dono){
         return this.dono.getId().equals(dono.getId());
-    }
-
-    public Set<Opiniao> getOpinioes() {
-        return this.opinioes;
-    }
-
-    public void setOpinioes(Opiniao opiniao) {
-        this.opinioes.add(opiniao);
     }
 
     public Set<Imagem> getImagens() {

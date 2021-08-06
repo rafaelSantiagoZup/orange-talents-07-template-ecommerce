@@ -35,9 +35,7 @@ public class ProdutoController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<?> addProduto(@RequestBody @Valid ProdutoForm produtoForm, @AuthenticationPrincipal Long usuarioId ){
-        System.out.println(usuarioId);
-        Usuario usuario = usuarioRepository.findById(usuarioId).get();
+    public ResponseEntity<?> addProduto(@RequestBody @Valid ProdutoForm produtoForm, @AuthenticationPrincipal Usuario usuario ){
         Produto produto = produtoForm.toModel(usuario,categoriaRepository);
         try{
             produtoRepository.save(produto);
@@ -50,7 +48,6 @@ public class ProdutoController {
     @Transactional
     public ResponseEntity<?> addImagemProduto(@Valid UploadFileForm imagens, @PathVariable Long id, @AuthenticationPrincipal Usuario usuario ){
         Produto produto = produtoRepository.findById(id).get();
-        System.out.println(produto.pertenceAoUsuario(usuario));
         if(produto.pertenceAoUsuario(usuario)){
             produto.setImagens(uploadFile(imagens.getFiles()));
             try{

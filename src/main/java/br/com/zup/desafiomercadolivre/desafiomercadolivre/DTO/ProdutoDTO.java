@@ -13,12 +13,6 @@ public class ProdutoDTO {
     private BigDecimal valor;
     private Integer quantidade;
     private List<CaracteristicaDTO> caracteristicas = new ArrayList<CaracteristicaDTO>();
-    private List<OpiniaoDTO> opinioes = new ArrayList<OpiniaoDTO>();
-
-    public List<OpiniaoDTO> getOpinioes() {
-        return opinioes;
-    }
-
     public List<CaracteristicaDTO> getCaracteristicas() {
         return caracteristicas;
     }
@@ -48,10 +42,6 @@ public class ProdutoDTO {
                 .stream()
                 .map(caracteristica-> new CaracteristicaDTO(caracteristica))
                 .collect(Collectors.toList()));
-        this.opinioes.addAll(produto
-                .getOpinioes()
-                .stream().map(opiniao -> new OpiniaoDTO(opiniao))
-        .collect(Collectors.toList()));
     }
 
     public Long getId() {
