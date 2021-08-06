@@ -111,4 +111,7 @@ public class Produto {
     public LocalDateTime getInstanteCadastro() {
         return instanteCadastro;
     }
+    public void abateEstoque(Integer quantidadeCompra){
+        this.quantidade = this.quantidade - quantidadeCompra;
+    }
 }
