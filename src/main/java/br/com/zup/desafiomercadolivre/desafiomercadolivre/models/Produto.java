@@ -114,4 +114,13 @@ public class Produto {
     public void abateEstoque(Integer quantidadeCompra){
         this.quantidade = this.quantidade - quantidadeCompra;
     }
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", valor=" + valor +
+                '}';
+    }
 }

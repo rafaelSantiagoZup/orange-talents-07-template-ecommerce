@@ -35,4 +35,10 @@ public class ValidationHandler {
         });
         return dto;
     }
+    @ExceptionHandler
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    public ValidationErrorsOutputDto stateValidationError(IllegalStateException exception){
+        ValidationErrorsOutputDto dto = new ValidationErrorsOutputDto(exception.getClass().getName(), exception.getLocalizedMessage());
+        return dto;
+    }
 }

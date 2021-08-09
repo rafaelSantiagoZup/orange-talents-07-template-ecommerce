@@ -46,10 +46,6 @@ public class Usuario implements UserDetails {
         return Objects.equals(id, usuario.id) && Objects.equals(login, usuario.login) && Objects.equals(senha, usuario.senha) && Objects.equals(dataCadastro, usuario.dataCadastro) && Objects.equals(perfis, usuario.perfis);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, login, senha, dataCadastro, perfis);
-    }
 
     public Long getId() {
         return id;
@@ -96,5 +92,13 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                '}';
     }
 }
